@@ -50,13 +50,13 @@ plugs:
 parts:
   rpcs3-app:
     plugin: nil
-    build-packages: [wget, curl]
+    build-packages: [wget, curl, jq]
     override-build: |
       if [ "$CRAFT_ARCH_TRIPLET_BUILD_FOR" = "x86_64-linux-gnu" ]; then
-        URL=$(curl -s "https://api.github.com/repos/RPCS3/rpcs3-binaries-linux/releases/latest" | grep -o 'https.*linux64\.AppImage' | head -1)
+        URL=$(curl -s "https://api.github.com/repos/RPCS3/rpcs3-binaries-linux/releases/latest" | jq -r '.assets[].browser_download_url' | grep 'linux64\.AppImage$' | head -1)
         wget "$URL"
       elif [ "$CRAFT_ARCH_TRIPLET_BUILD_FOR" = "aarch64-linux-gnu" ]; then
-        URL=$(curl -s "https://api.github.com/repos/RPCS3/rpcs3-binaries-linux-arm64/releases/latest" | grep -o 'https.*linux_aarch64\.AppImage' | head -1)
+        URL=$(curl -s "https://api.github.com/repos/RPCS3/rpcs3-binaries-linux-arm64/releases/latest" | jq -r '.assets[].browser_download_url' | grep 'linux_aarch64\.AppImage$' | head -1)
         wget "$URL"
       fi
       

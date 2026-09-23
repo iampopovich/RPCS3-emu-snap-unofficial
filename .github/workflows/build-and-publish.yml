@@ -42,10 +42,14 @@ jobs:
   build-and-publish:
     needs: check-upstream
     if: needs.check-upstream.outputs.new_version == 'true'
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [amd64, arm64]
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
 

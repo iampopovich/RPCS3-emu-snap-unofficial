@@ -2,8 +2,7 @@ name: Build and publish snap
 
 on:
   schedule:
-    # Every 6 hours - RPCS3 upstream ships builds very frequently
-    - cron: '0 */6 * * *'
+    - cron: '0 9 * * *'
   workflow_dispatch: {}
   push:
     branches: [main]
